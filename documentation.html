@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation | Kelechi</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: #f8f7f4;
+    color: #222;
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding: 20px;
+}
+
+.project {
+    background: #fff;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #ddd;
+}
+
+.meta {
+    color: #555;
+    font-size: 0.9em;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #dcdcdc;
+    padding: 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.keyword { color: #569cd6; }
+.string { color: #ce9178; }
+.func { color: #dcdcaa; }
+.comment { color: #6a9955; }
+
+img {
+    max-width: 100%;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin: 5px 0 15px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+th { background: #eee; }
+
+h3 { margin-top: 30px; }
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Project Documentation</h1>
+</header>
+
+<div class="project" id="ipmd-core">
+
+<h2>IPMD-core 📌</h2>
+
+<p class="meta">
+Author: Kelechi<br>
+Date: 04/11/2026
+</p>
+
+<p>
+A simple way to pin information like dates and names directly into image pixels so it doesn't get lost when you send it to other devices or take a screenshot.
+</p>
+
+<!-- API -->
+<h3>Core API</h3>
+<table>
+<tr><th>Function</th><th>Work</th></tr>
+<tr><td>RIPIA()</td><td>Hide data inside image</td></tr>
+<tr><td>.save()</td><td>Save encoded image</td></tr>
+<tr><td>RIPIAR()</td><td>Load encoded image</td></tr>
+<tr><td>.reveal()</td><td>Extract data</td></tr>
+</table>
+
+<!-- CLI -->
+<h3>CLI Commands</h3>
+<table>
+<tr><th>Command</th><th>Meaning</th></tr>
+<tr><td>-ach / --anchor</td><td>Add info</td></tr>
+<tr><td>-r / --retrieve</td><td>Get info</td></tr>
+<tr><td>-src</td><td>Image path</td></tr>
+<tr><td>-inf</td><td>Data</td></tr>
+<tr><td>-rsrc</td><td>Encoded image</td></tr>
+</table>
+
+<!-- ================= PYTHON DEMO ================= -->
+
+<h2>IPMD Test Demo</h2>
+
+<h3>Original Image (Without info)</h3>
+<p><strong>File:</strong> original.png</p>
+<img src="images/original.png">
+
+<h3>Anchoring Data (Adding info)</h3>
+
+<pre id="c1"><code>
+<span class="keyword">from</span> ipmd <span class="keyword">import</span> RIPIA
+
+image = <span class="string">"original.png"</span>
+data = {"_Time_": <span class="string">"|27/4/2026|"</span>, "_Name_": <span class="string">"Minimalist Human|"</span>}
+
+anchor = <span class="func">RIPIA</span>(image, data)
+
+<span class="func">print</span>(anchor.save()) <span class="comment"># auto save</span>
+</code></pre>
+
+<button onclick="copyCode('c1')">Copy</button>
+
+<p><strong>Output:</strong><br>
+Save successful: [original_ipmd.png]</p>
+
+<h3>IPMD Image (With info)</h3>
+<p><strong>File:</strong> original_ipmd.png</p>
+<img src="images/original_ipmd.png">
+
+<h3>Extracting Data (Retrieving info)</h3>
+
+<pre id="c2"><code>
+<span class="keyword">from</span> ipmd <span class="keyword">import</span> RIPIAR
+
+ipmd_image = <span class="string">"original_ipmd.png"</span>
+extrat = <span class="func">RIPIAR</span>(ipmd_image)
+
+<span class="func">print</span>(extrat.reveal())
+</code></pre>
+
+<button onclick="copyCode('c2')">Copy</button>
+
+<pre id="c3"><code>
+[['|27/4/2026|minimalist human|'],
+ ['|27/4/2026|minimalist human|'],
+ ['|27/4/2026|minimalist human|']]
+</code></pre>
+
+<button onclick="copyCode('c3')">Copy</button>
+
+<!-- ================= CLI ================= -->
+
+<h2>CLI Demo</h2>
+
+<h3>Original Image</h3>
+<p><strong>File:</strong> cli_original.png</p>
+<img src="images/cli_original.png">
+
+<h3>--anchor | -ach (Adding info)</h3>
+
+<pre id="c4"><code>
+python ../ipmd/core.py -ach -src cli_original.png -inf '{"_Time_": "|27/4/2026|", "_Name_": "Cosmic Fusion Object|"}'
+</code></pre>
+
+<button onclick="copyCode('c4')">Copy</button>
+
+<p><strong>Output:</strong><br>
+Save successful: [cli_original_ipmd.png]</p>
+
+<h3>CLI IPMD Image</h3>
+<p><strong>File:</strong> cli_original_ipmd.png</p>
+<img src="images/cli_original_ipmd.png">
+
+<h3>--retrievesource | -r (Extracting info)</h3>
+
+<pre id="c5"><code>
+python ../ipmd/core.py -r -rsrc cli_original_ipmd.png
+</code></pre>
+
+<button onclick="copyCode('c5')">Copy</button>
+
+<pre id="c6"><code>
+[['|27/4/2026|cosmic fusion object|'],
+ ['|27/4/2026|cosmic fusion object|'],
+ ['|27/4/2026|cosmic fusion object|']]
+</code></pre>
+
+<button onclick="copyCode('c6')">Copy</button>
+
+</div>
+
+<script>
+function copyCode(id){
+    let text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text);
+    alert("Copied!");
+}
+</script>
+
+</body>
+</html>
